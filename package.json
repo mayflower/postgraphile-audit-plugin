@@ -8,7 +8,7 @@
     "lint": "eslint 'src/**/*.ts'",
     "watch": "tsc --watch",
     "test": "./scripts/test",
-    "start-test-docker": "docker run --rm -d -p=54321:5432 --name=postgraphile-audit-test-postgres postgres"
+    "start-test-docker": "docker run --rm -d -p=54321:5432 --name=postgraphile-audit-test-postgres postgres:11.5"
   },
   "devDependencies": {
     "eslint": "^6.7.1",

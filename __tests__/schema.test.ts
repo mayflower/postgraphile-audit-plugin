@@ -1,11 +1,10 @@
 import * as pg from "pg";
-import { graphql, ObjectTypeDefinitionNode } from "graphql";
+import { graphql, printSchema } from "graphql";
 import {
   createPostGraphileSchema,
   PostGraphileCoreOptions,
 } from "postgraphile-core";
-import { gql } from "graphile-utils";
-import federationPlugin from "../src";
+import postgraphileAuditPlugin from "../src";
 import { GraphQLSchema } from "graphql";
 
 let pgPool: pg.Pool | null;
@@ -24,9 +23,9 @@ afterAll(() => {
 });
 
 function buildTestSchema(override?: PostGraphileCoreOptions) {
-  return createPostGraphileSchema(pgPool!, ["graphile_federation"], {
+  return createPostGraphileSchema(pgPool!, ["postgraphile_audit_plugin"], {
     disableDefaultMutations: true,
-    appendPlugins: [federationPlugin],
+    appendPlugins: [postgraphileAuditPlugin],
     simpleCollections: "only",
     ...override,
   });
@@ -44,75 +43,12 @@ async function queryWithTestSchema(
   }
 }
 
-test("schema and _service.sdl", async () => {
+test("schema", async () => {
+  const schemaWithout = await buildTestSchema({ appendPlugins: [] });
+  expect(schemaWithout).toMatchSnapshot("external schema without plugin");
+
   const schema = await buildTestSchema();
-  expect(schema).toMatchSnapshot("external schema");
+  expect(schema).toMatchSnapshot("external schema with plugin");
 
-  const { data, errors } = await graphql(
-    schema,
-    `
-      query {
-        _service {
-          sdl
-        }
-      }
-    `,
-    null,
-    {},
-    {}
-  );
-
-  expect(errors).toBeUndefined();
-  expect(data._service.sdl).toMatchSnapshot("_service.sdl");
-
-  const parsed = gql([data._service.sdl] as any);
-
-  const emailDefinition = parsed.definitions.find(
-    def => def.kind === "ObjectTypeDefinition" && def.name.value === "Email"
-  ) as ObjectTypeDefinitionNode;
-
-  expect(emailDefinition.directives).toEqual(
-    expect.arrayContaining([
-      expect.objectContaining({
-        name: expect.objectContaining({ value: "key" }),
-        arguments: [
-          expect.objectContaining({
-            name: expect.objectContaining({ value: "fields" }),
-            value: expect.objectContaining({ value: "nodeId" }),
-          }),
-        ],
-      }),
-    ])
-  );
-});
-
-test("querying _entities by nodeId", async () => {
-  const { data, errors } = await queryWithTestSchema(
-    buildTestSchema(),
-    `
-        query {
-          _entities(
-            representations: [
-              { __typename: "User", nodeId: "WyJ1c2VycyIsMV0=" }
-            ]
-          ) {
-            ... on User {
-              __typename
-              nodeId
-              id
-              firstName
-            }
-          }
-        }
-      `
-  );
-  expect(errors).toBeUndefined();
-  expect(data && data._entities).toEqual([
-    {
-      __typename: "User",
-      id: 1,
-      firstName: "alicia",
-      nodeId: expect.any(String),
-    },
-  ]);
+  expect(printSchema(schemaWithout)).not.toEqual(printSchema(schema));
 });

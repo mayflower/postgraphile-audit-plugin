@@ -1,0 +1,3 @@
+[submodule "__tests__/pgMemento"]
+	path = __tests__/pgMemento
+	url = https://github.com/pgMemento/pgMemento

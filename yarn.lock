@@ -1675,9 +1675,9 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.3.tgz#4a12ff1b60376ef09862c2093edd908328be8423"
   integrity sha512-a30VEBm4PEdx1dRB7MFK7BejejvCvBronbLjht+sHuGYj8PHs7M/5Z+rt5lw551vZ7yfTCj4Vuyy3mSJytDWRQ==
 
-graphile-build-pg@4.5.0:
+graphile-build-pg@4.5.0, graphile-build-pg@^4.5.0:
   version "4.5.0"
-  resolved "https://registry.yarnpkg.com/graphile-build-pg/-/graphile-build-pg-4.5.0.tgz#de3cbc7fff3ed692ffae1f8b531d11a9999ef09c"
+  resolved "https://registry.npmjs.org/graphile-build-pg/-/graphile-build-pg-4.5.0.tgz#de3cbc7fff3ed692ffae1f8b531d11a9999ef09c"
   integrity sha512-zXLLk2PIKi2ehtyGzuGQTMMHk+WDOXw5Bo6Bi3BHbK+t2VAsIauliJA7nNgZ/5Ms2P0aE/FixxIBHxYAC5PS4Q==
   dependencies:
     "@graphile/lru" "4.5.0"
@@ -1708,7 +1708,7 @@ graphile-build@4.5.0:
 
 graphile-utils@^4.5.2:
   version "4.5.2"
-  resolved "https://registry.yarnpkg.com/graphile-utils/-/graphile-utils-4.5.2.tgz#c4938910c9df9acdff30388d2ab1b43236ed6335"
+  resolved "https://registry.npmjs.org/graphile-utils/-/graphile-utils-4.5.2.tgz#c4938910c9df9acdff30388d2ab1b43236ed6335"
   integrity sha512-UZrelrqxrEszClVE0MP1cc9+1vcpriK0BywIPneD1/4wu87kWmTbAGPO9orp4ePv9S+MHnqQuGwnDuKTYoLwVA==
   dependencies:
     debug "^4.1.1"
@@ -3336,6 +3336,15 @@ pg-pool@^2.0.7:
 pg-sql2@4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/pg-sql2/-/pg-sql2-4.5.0.tgz#d1f5f039c5717f8266e340508b1e29e760f5e2ce"
+  integrity sha512-kmqhJgKbOWsVzKjhzsfglZagyrV5fXkrHeY33WdeSsxhegZI1Evpa/lQzG1uQj2ZfLPIePV7RyoaZH8eVHRd3A==
+  dependencies:
+    "@graphile/lru" "4.5.0"
+    "@types/pg" ">=6 <8"
+    debug ">=3 <5"
+
+pg-sql2@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.npmjs.org/pg-sql2/-/pg-sql2-4.5.0.tgz#d1f5f039c5717f8266e340508b1e29e760f5e2ce"
   integrity sha512-kmqhJgKbOWsVzKjhzsfglZagyrV5fXkrHeY33WdeSsxhegZI1Evpa/lQzG1uQj2ZfLPIePV7RyoaZH8eVHRd3A==
   dependencies:
     "@graphile/lru" "4.5.0"

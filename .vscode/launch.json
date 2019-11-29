@@ -7,6 +7,21 @@
       "program": "${workspaceFolder}/node_modules/.bin/jest",
       "args": ["--runInBand"],
       "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "postgraphile tests",
+      "program": "${workspaceFolder}/node_modules/.bin/postgraphile",
+      "args": [
+        "--connection",
+        "postgres://postgres:postgres@localhost:54321/postgres",
+        "--schema=postgraphile_audit_plugin",
+        "--append-plugins=${workspaceFolder}/dist/src/index.js",
+        "--enhance-graphiql",
+        "--allow-explain"
+      ],
+      "envFile": "${workspaceFolder}/.env"
     }
   ]
 }

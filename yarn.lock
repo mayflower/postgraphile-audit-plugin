@@ -3333,18 +3333,9 @@ pg-pool@^2.0.7:
   resolved "https://registry.yarnpkg.com/pg-pool/-/pg-pool-2.0.7.tgz#f14ecab83507941062c313df23f6adcd9fd0ce54"
   integrity sha512-UiJyO5B9zZpu32GSlP0tXy8J2NsJ9EFGFfz5v6PSbdz/1hBLX1rNiiy5+mAm5iJJYwfCv4A0EBcQLGWwjbpzZw==
 
-pg-sql2@4.5.0:
+pg-sql2@4.5.0, pg-sql2@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/pg-sql2/-/pg-sql2-4.5.0.tgz#d1f5f039c5717f8266e340508b1e29e760f5e2ce"
-  integrity sha512-kmqhJgKbOWsVzKjhzsfglZagyrV5fXkrHeY33WdeSsxhegZI1Evpa/lQzG1uQj2ZfLPIePV7RyoaZH8eVHRd3A==
-  dependencies:
-    "@graphile/lru" "4.5.0"
-    "@types/pg" ">=6 <8"
-    debug ">=3 <5"
-
-pg-sql2@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.npmjs.org/pg-sql2/-/pg-sql2-4.5.0.tgz#d1f5f039c5717f8266e340508b1e29e760f5e2ce"
   integrity sha512-kmqhJgKbOWsVzKjhzsfglZagyrV5fXkrHeY33WdeSsxhegZI1Evpa/lQzG1uQj2ZfLPIePV7RyoaZH8eVHRd3A==
   dependencies:
     "@graphile/lru" "4.5.0"

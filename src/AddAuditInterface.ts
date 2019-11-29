@@ -18,6 +18,16 @@ export const AddAuditedInterface: Plugin = builder => {
           name: "Audited",
           description: "An interface for all Audited types.",
           fields: () => ({
+            firstAuditEvent: {
+              type: new GraphQLNonNull(getTypeByName("AuditEvent")),
+            },
+            createdAt: { type: new GraphQLNonNull(getTypeByName("String")) },
+            lastAuditEvent: {
+              type: new GraphQLNonNull(getTypeByName("AuditEvent")),
+            },
+            lastModifiedAt: {
+              type: new GraphQLNonNull(getTypeByName("String")),
+            },
             auditEvents: {
               name: "auditEvents",
               type: new GraphQLNonNull(getTypeByName("AuditEventsConnection")),

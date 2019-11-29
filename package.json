@@ -8,10 +8,13 @@
     "lint": "eslint 'src/**/*.ts'",
     "watch": "tsc --watch",
     "test": "./scripts/test",
-    "start-test-docker": "docker run --rm -d -p=54321:5432 --name=postgraphile-audit-test-postgres postgres:11.5"
+    "start-test-docker": "docker run --rm -d -p=54321:5432 --name=postgraphile-audit-test-postgres postgres:11.5",
+    "start-test-postgraphile": "source ./.env; yarn postgraphile --connection=$TEST_DATABASE_URL --schema postgraphile_audit_plugin"
   },
   "devDependencies": {
     "eslint": "^6.7.1",
+    "jest": "^24.9.0",
+    "postgraphile": "^4.5.0",
     "prettier": "^1.19.1",
     "typescript": "^3.7.2"
   }

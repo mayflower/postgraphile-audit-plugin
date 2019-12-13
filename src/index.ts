@@ -12,6 +12,8 @@ declare module "graphile-build" {
   }
 }
 
+export { AuditPluginOptions, AdditionalInflectors };
+
 export default makePluginByCombiningPlugins(
   inflectors,
   AddAuditFields,

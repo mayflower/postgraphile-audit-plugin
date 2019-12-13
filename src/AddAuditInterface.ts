@@ -34,6 +34,7 @@ export const AddAuditedInterface: Plugin = builder => {
                 args?: any;
               };
             } = {};
+
             if (firstLastAuditEvent) {
               fields[inflection.pap_firstAuditEvent()] = {
                 type: new GraphQLNonNull(getTypeByName("AuditEvent")),
@@ -44,12 +45,21 @@ export const AddAuditedInterface: Plugin = builder => {
             }
 
             if (dateProps) {
-              (fields[inflection.pap_createdAt()] = {
+              fields[inflection.pap_createdAt()] = {
                 type: new GraphQLNonNull(getTypeByName("String")),
-              }),
-                (fields[inflection.pap_lastModifiedAt()] = {
-                  type: new GraphQLNonNull(getTypeByName("String")),
-                });
+              };
+              fields[inflection.pap_lastModifiedAt()] = {
+                type: new GraphQLNonNull(getTypeByName("String")),
+              };
+            }
+
+            if (nameProps) {
+              fields[inflection.pap_createdBy()] = {
+                type: new GraphQLNonNull(getTypeByName("String")),
+              };
+              fields[inflection.pap_lastModifiedBy()] = {
+                type: new GraphQLNonNull(getTypeByName("String")),
+              };
             }
 
             if (auditEventConnection) {

@@ -1,3 +1,5 @@
+import { AuditPluginOptions } from "./options";
+
 type PgClass = import("graphile-build-pg").PgClass;
 type PgSql2 = typeof import("pg-sql2");
 type Build = import("graphile-build/node8plus/SchemaBuilder").Build;
@@ -8,6 +10,7 @@ export function queryBuildersForTable(pgClass: PgClass, build: Build) {
   return {
     queryForAudits,
     queryForDate,
+    queryForUser,
     firstResult,
     lastResult,
   };
@@ -25,6 +28,18 @@ export function queryBuildersForTable(pgClass: PgClass, build: Build) {
   function queryForDate(which: "first" | "last") {
     return (queryBuilder: QueryBuilder) =>
       sql.fragment`(SELECT stmt_date FROM ${queryForAudits(
+        queryBuilder
+      )}  ORDER BY id ${sql.raw(which === "first" ? "ASC" : "DESC")} LIMIT 1)`;
+  }
+  function queryForUser(which: "first" | "last", options: AuditPluginOptions) {
+    return (queryBuilder: QueryBuilder) =>
+      sql.fragment`(SELECT COALESCE((${
+        options.nameSource === "user_name"
+          ? sql.identifier("user_name")
+          : sql.fragment`${sql.identifier("session_info")}#>>${sql.value(
+              options.nameSessionInfoJsonPath
+            )}`
+      }), ${sql.value(options.nameFallback)}) FROM ${queryForAudits(
         queryBuilder
       )}  ORDER BY id ${sql.raw(which === "first" ? "ASC" : "DESC")} LIMIT 1)`;
   }

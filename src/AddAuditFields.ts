@@ -9,12 +9,14 @@ type Inflection = import("graphile-build").Inflection;
 
 export const AddAuditFields = makeExtendSchemaPlugin((build, options) => {
   const inflection: Inflection = build.inflection;
+  const auditOptions = getOptions(build);
   const {
     auditEventConnection,
     firstLastAuditEvent,
     dateProps,
     nameProps,
-  } = getOptions(build);
+  } = auditOptions;
+
   const pgClasses: PgClass[] = build.pgIntrospectionResultsByKind.class;
   const auditedClasses = pgClasses.filter(isAuditedClass);
 
@@ -24,6 +26,7 @@ export const AddAuditFields = makeExtendSchemaPlugin((build, options) => {
       firstResult,
       lastResult,
       queryForDate,
+      queryForUser,
     } = queryBuildersForTable(pgClass, build);
     const typeDefs = [];
     if (firstLastAuditEvent) {
@@ -48,6 +51,18 @@ export const AddAuditFields = makeExtendSchemaPlugin((build, options) => {
         )
         ${inflection.pap_lastModifiedAt()}: String! @pgQuery(
             fragment: ${embed(queryForDate("last"))}
+        )
+      }
+      `);
+    }
+    if (nameProps) {
+      typeDefs.push(gql`
+      extend type ${inflection.tableType(pgClass)} {
+        ${inflection.pap_createdBy()}: String! @pgQuery(
+            fragment: ${embed(queryForUser("first", auditOptions))}
+        )
+        ${inflection.pap_lastModifiedBy()}: String! @pgQuery(
+            fragment: ${embed(queryForUser("last", auditOptions))}
         )
       }
       `);

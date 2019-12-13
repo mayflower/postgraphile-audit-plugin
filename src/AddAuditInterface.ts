@@ -1,7 +1,9 @@
 import { isAuditedClass } from "./util";
+import { getOptions } from "./options";
 
 type Plugin = import("graphile-build").Plugin;
 type Inflection = import("graphile-build").Inflection;
+type GraphQLType = import("graphql").GraphQLType;
 
 export const AddAuditedInterface: Plugin = builder => {
   builder.hook(
@@ -12,6 +14,12 @@ export const AddAuditedInterface: Plugin = builder => {
         newWithHooks,
         graphql: { GraphQLNonNull, GraphQLInterfaceType },
       } = build;
+      const {
+        auditEventConnection,
+        firstLastAuditEvent,
+        dateProps,
+        nameProps,
+      } = getOptions(build);
       const inflection: Inflection = build.inflection;
 
       newWithHooks(
@@ -19,31 +27,47 @@ export const AddAuditedInterface: Plugin = builder => {
         {
           name: inflection.pap_AuditedInterface(),
           description: "An interface for all Audited types.",
-          fields: () => ({
-            [inflection.pap_firstAuditEvent()]: {
-              type: new GraphQLNonNull(getTypeByName("AuditEvent")),
-            },
-            [inflection.pap_createdAt()]: {
-              type: new GraphQLNonNull(getTypeByName("String")),
-            },
-            [inflection.pap_lastAuditEvent()]: {
-              type: new GraphQLNonNull(getTypeByName("AuditEvent")),
-            },
-            [inflection.pap_lastModifiedAt()]: {
-              type: new GraphQLNonNull(getTypeByName("String")),
-            },
-            [inflection.pap_auditEvents()]: {
-              name: "auditEvents",
-              type: new GraphQLNonNull(getTypeByName("AuditEventsConnection")),
-              args: {
-                first: { type: getTypeByName("Int") },
-                last: { type: getTypeByName("Int") },
-                offset: { type: getTypeByName("Int") },
-                before: { type: getTypeByName("Cursor") },
-                after: { type: getTypeByName("Cursor") },
-              },
-            },
-          }),
+          fields: () => {
+            const fields: {
+              [fieldName: string]: {
+                type: GraphQLType;
+                args?: any;
+              };
+            } = {};
+            if (firstLastAuditEvent) {
+              fields[inflection.pap_firstAuditEvent()] = {
+                type: new GraphQLNonNull(getTypeByName("AuditEvent")),
+              };
+              fields[inflection.pap_lastAuditEvent()] = {
+                type: new GraphQLNonNull(getTypeByName("AuditEvent")),
+              };
+            }
+
+            if (dateProps) {
+              (fields[inflection.pap_createdAt()] = {
+                type: new GraphQLNonNull(getTypeByName("String")),
+              }),
+                (fields[inflection.pap_lastModifiedAt()] = {
+                  type: new GraphQLNonNull(getTypeByName("String")),
+                });
+            }
+
+            if (auditEventConnection) {
+              fields[inflection.pap_auditEvents()] = {
+                type: new GraphQLNonNull(
+                  getTypeByName("AuditEventsConnection")
+                ),
+                args: {
+                  first: { type: getTypeByName("Int") },
+                  last: { type: getTypeByName("Int") },
+                  offset: { type: getTypeByName("Int") },
+                  before: { type: getTypeByName("Cursor") },
+                  after: { type: getTypeByName("Cursor") },
+                },
+              };
+            }
+            return fields;
+          },
         },
         {
           __origin: `Audit`,

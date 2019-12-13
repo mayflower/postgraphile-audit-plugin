@@ -4,8 +4,8 @@ exports[`schema: external schema with plugin 1`] = `
 """An interface for all Audited types."""
 interface Audited {
   firstAuditEvent: AuditEvent!
-  createdAt: String!
   lastAuditEvent: AuditEvent!
+  createdAt: String!
   lastModifiedAt: String!
   auditEvents(first: Int, last: Int, offset: Int, before: Cursor, after: Cursor): AuditEventsConnection!
 }
@@ -89,8 +89,8 @@ type Email implements Node & Audited {
     condition: UsersEmailCondition
   ): [UsersEmail!]!
   firstAuditEvent: AuditEvent!
-  createdAt: String!
   lastAuditEvent: AuditEvent!
+  createdAt: String!
   lastModifiedAt: String!
   auditEvents(
     """Only read the first \`n\` values of the set."""
@@ -305,8 +305,8 @@ type User implements Node & Audited {
     condition: UsersEmailCondition
   ): [UsersEmail!]!
   firstAuditEvent: AuditEvent!
-  createdAt: String!
   lastAuditEvent: AuditEvent!
+  createdAt: String!
   lastModifiedAt: String!
   auditEvents(
     """Only read the first \`n\` values of the set."""
@@ -361,8 +361,8 @@ type UsersEmail implements Node & Audited {
   """Reads a single \`Email\` that is related to this \`UsersEmail\`."""
   emailByEmailId: Email
   firstAuditEvent: AuditEvent!
-  createdAt: String!
   lastAuditEvent: AuditEvent!
+  createdAt: String!
   lastModifiedAt: String!
   auditEvents(
     """Only read the first \`n\` values of the set."""

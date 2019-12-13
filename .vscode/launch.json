@@ -11,13 +11,13 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "postgraphile tests",
+      "name": "debug postgraphile",
       "program": "${workspaceFolder}/node_modules/.bin/postgraphile",
       "args": [
         "--connection",
         "postgres://postgres:postgres@localhost:54321/postgres",
         "--schema=postgraphile_audit_plugin",
-        "--append-plugins=${workspaceFolder}/dist/src/index.js",
+        "--append-plugins=${workspaceFolder}/dist/index.js",
         "--enhance-graphiql",
         "--allow-explain"
       ],

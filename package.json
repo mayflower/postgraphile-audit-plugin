@@ -12,6 +12,7 @@
     "start-test-postgraphile": "source ./.env; yarn postgraphile --connection=$TEST_DATABASE_URL --schema postgraphile_audit_plugin --append-plugins $PWD/dist/index.js"
   },
   "devDependencies": {
+    "@types/array.prototype.flatmap": "^1.2.0",
     "@types/jest": "^24.0.23",
     "@typescript-eslint/eslint-plugin": "^2.9.0",
     "@typescript-eslint/parser": "^2.9.0",
@@ -28,6 +29,7 @@
     "typescript": "^3.7.2"
   },
   "dependencies": {
+    "array.prototype.flatmap": "^1.2.3",
     "graphile-build-pg": "^4.5.0",
     "graphile-utils": "^4.5.2",
     "pg-sql2": "^4.5.0"

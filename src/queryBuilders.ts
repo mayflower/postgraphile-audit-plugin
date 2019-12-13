@@ -3,7 +3,7 @@ type PgSql2 = typeof import("pg-sql2");
 type Build = import("graphile-build/node8plus/SchemaBuilder").Build;
 type QueryBuilder = import("graphile-build-pg").QueryBuilder;
 
-function queryBuildersForTable(pgClass: PgClass, build: Build) {
+export function queryBuildersForTable(pgClass: PgClass, build: Build) {
   const sql: PgSql2 = build.pgSql;
   return {
     queryForAudits,

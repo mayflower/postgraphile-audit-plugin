@@ -1,6 +1,7 @@
 import { isAuditedClass } from "./util";
 
 type Plugin = import("graphile-build").Plugin;
+type Inflection = import("graphile-build").Inflection;
 
 export const AddAuditedInterface: Plugin = builder => {
   builder.hook(
@@ -11,24 +12,27 @@ export const AddAuditedInterface: Plugin = builder => {
         newWithHooks,
         graphql: { GraphQLNonNull, GraphQLInterfaceType },
       } = build;
+      const inflection: Inflection = build.inflection;
 
       newWithHooks(
         GraphQLInterfaceType,
         {
-          name: "Audited",
+          name: inflection.pap_AuditedInterface(),
           description: "An interface for all Audited types.",
           fields: () => ({
-            firstAuditEvent: {
+            [inflection.pap_firstAuditEvent()]: {
               type: new GraphQLNonNull(getTypeByName("AuditEvent")),
             },
-            createdAt: { type: new GraphQLNonNull(getTypeByName("String")) },
-            lastAuditEvent: {
-              type: new GraphQLNonNull(getTypeByName("AuditEvent")),
-            },
-            lastModifiedAt: {
+            [inflection.pap_createdAt()]: {
               type: new GraphQLNonNull(getTypeByName("String")),
             },
-            auditEvents: {
+            [inflection.pap_lastAuditEvent()]: {
+              type: new GraphQLNonNull(getTypeByName("AuditEvent")),
+            },
+            [inflection.pap_lastModifiedAt()]: {
+              type: new GraphQLNonNull(getTypeByName("String")),
+            },
+            [inflection.pap_auditEvents()]: {
               name: "auditEvents",
               type: new GraphQLNonNull(getTypeByName("AuditEventsConnection")),
               args: {

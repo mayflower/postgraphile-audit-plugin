@@ -23,11 +23,13 @@ git submodule update --init --recursive
   psql -Xqv ON_ERROR_STOP=1 -f INSTALL_PGMEMENTO.sql "$TEST_DATABASE_URL"
 )
 
+
 # Import latest schema (throw on error)
 psql -Xqv ON_ERROR_STOP=1 -f __tests__/setupSchema.sql "$TEST_DATABASE_URL"
+psql -Xqv ON_ERROR_STOP=1 -f Setup.sql "$TEST_DATABASE_URL"
 clear
 echo "Database reset successfully ✅"
 
 # Now run the tests
-jest -i $@
+jest -i "$@"
 

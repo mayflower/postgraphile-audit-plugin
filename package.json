@@ -9,7 +9,7 @@
     "watch": "tsc --watch",
     "test": "./scripts/test",
     "start-test-docker": "docker run --rm -d -p=54321:5432 --name=postgraphile-audit-test-postgres postgres:11.5",
-    "start-test-postgraphile": "source ./.env; yarn postgraphile --connection=$TEST_DATABASE_URL --schema postgraphile_audit_plugin --append-plugins $PWD/dist/src/index.js"
+    "start-test-postgraphile": "source ./.env; yarn postgraphile --connection=$TEST_DATABASE_URL --schema postgraphile_audit_plugin --append-plugins $PWD/dist/index.js"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",

@@ -1,6 +1,7 @@
 import { makePluginByCombiningPlugins } from "graphile-utils";
 import { AddAuditFields } from "./AddAuditFields";
 import { AddAuditedInterface } from "./AddAuditInterface";
+import { OrderByAudit } from "./OrderByAudit";
 
 import { AdditionalInflectors, inflectors } from "./inflectors";
 import { AuditPluginOptions } from "./options";
@@ -12,10 +13,11 @@ declare module "graphile-build" {
   }
 }
 
-export { AuditPluginOptions, AdditionalInflectors };
+export { AuditPluginOptions, AdditionalInflectors, OrderByAudit };
 
 export default makePluginByCombiningPlugins(
   inflectors,
   AddAuditFields,
-  AddAuditedInterface
+  AddAuditedInterface,
+  OrderByAudit
 );

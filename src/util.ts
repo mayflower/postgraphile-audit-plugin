@@ -1,12 +1,14 @@
+type PgEntity = import("graphile-build-pg").PgEntity;
 type PgClass = import("graphile-build-pg").PgClass;
 type DocumentNode = import("graphql").DocumentNode;
 
-export function isAuditedClass(pgClass?: PgClass) {
+export function isAuditedClass(pgEntity?: PgEntity): pgEntity is PgClass {
   return (
-    pgClass &&
-    pgClass.namespaceName !== "pgmemento" &&
-    pgClass.classKind === "r" &&
-    pgClass.attributes.some(pgAttribute => pgAttribute.name === "audit_id")
+    !!pgEntity &&
+    pgEntity.kind === "class" &&
+    pgEntity.namespaceName !== "pgmemento" &&
+    pgEntity.classKind === "r" &&
+    pgEntity.attributes.some(pgAttribute => pgAttribute.name === "audit_id")
   );
 }
 

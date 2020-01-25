@@ -1,4 +1,11 @@
-CREATE TYPE postgraphile_audit_plugin.audit_event AS ( id BIGINT,
+\echo
+\echo 'Please enter the name of the schema that will contain the `audit_event` type and `get_audit_information` function:'
+\echo 'This schema should be exposed by postgraphile and can be different from the pgMemento schema'
+\prompt '[example: "public"] ' schema_name
+
+SET search_path TO :schema_name;
+
+CREATE TYPE audit_event AS ( id BIGINT,
 audit_id BIGINT,
 event_id INT,
 transaction_id INT,
@@ -8,11 +15,11 @@ session_info jsonb,
 values_before jsonb,
 values_after jsonb);
 
-CREATE OR REPLACE FUNCTION postgraphile_audit_plugin.get_audit_information (
+CREATE OR REPLACE FUNCTION get_audit_information (
 _audit_id BIGINT,
 _schema_name text,
 _table_name text
-) RETURNS SETOF postgraphile_audit_plugin.audit_event AS $$
+) RETURNS SETOF audit_event AS $$
 WITH audits AS (
 SELECT
 	rl.id,
@@ -52,8 +59,3 @@ WHERE
 	audits.audit_id = _audit_id
 	
 	$$ Language SQL stable;
-	
-	
-	
-	
-	

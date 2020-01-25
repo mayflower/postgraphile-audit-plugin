@@ -7,6 +7,7 @@ export function isAuditedClass(pgEntity?: PgEntity): pgEntity is PgClass {
     !!pgEntity &&
     pgEntity.kind === "class" &&
     pgEntity.namespaceName !== "pgmemento" &&
+    !!pgEntity.namespace &&
     pgEntity.classKind === "r" &&
     pgEntity.attributes.some(pgAttribute => pgAttribute.name === "audit_id")
   );

@@ -3,6 +3,11 @@ type Options = import("graphile-build").Options;
 
 export interface AuditPluginOptions {
   /**
+   * name of the schema that contains the `get_audit_information` function
+   */
+  auditFunctionSchema: string;
+
+  /**
    * include "auditEvents" connection on audited types
    */
   auditEventConnection: boolean;
@@ -38,6 +43,7 @@ export function getOptions(build: Build): AuditPluginOptions {
   const options: Options = build.options;
   const {
     auditPlugin: {
+      auditFunctionSchema = "public",
       auditEventConnection = true,
       firstLastAuditEvent = true,
       dateProps = true,
@@ -48,6 +54,7 @@ export function getOptions(build: Build): AuditPluginOptions {
     } = {},
   } = options;
   return {
+    auditFunctionSchema,
     auditEventConnection,
     firstLastAuditEvent,
     dateProps,

@@ -35,12 +35,12 @@ export const OrderByAudit: Plugin = builder => {
       dateProps &&
         orderByAscDesc(
           inflection.constantCase(inflection.pap_createdAt()),
-          wrapForOrderByAscDesc(queryForDate("first"))
+          wrapForOrderByAscDesc(queryForDate("first", auditOptions))
         ),
       dateProps &&
         orderByAscDesc(
           inflection.constantCase(inflection.pap_lastModifiedAt()),
-          wrapForOrderByAscDesc(queryForDate("last"))
+          wrapForOrderByAscDesc(queryForDate("last", auditOptions))
         ),
 
       nameProps &&

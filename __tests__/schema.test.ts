@@ -27,6 +27,17 @@ function buildTestSchema(override?: PostGraphileCoreOptions) {
     disableDefaultMutations: true,
     appendPlugins: [postgraphileAuditPlugin],
     simpleCollections: "only",
+    graphileBuildOptions: {
+      auditPlugin: {
+        auditFunctionSchema: "postgraphile_audit_plugin",
+        auditEventConnection: true,
+        firstLastAuditEvent: true,
+        dateProps: true,
+        nameProps: false,
+        nameSource: "session_info",
+        nameSessionInfoJsonPath: "{nested,name}",
+      },
+    },
     ...override,
   });
 }

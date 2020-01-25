@@ -15,19 +15,19 @@ export function queryBuildersForTable(pgClass: PgClass, build: Build) {
     lastResult,
   };
 
-  function queryForAudits(
-    queryBuilder: import("graphile-build-pg").QueryBuilder
-  ) {
-    return sql.fragment`
-        postgraphile_audit_plugin.get_audit_information(
+  function queryForAudits(options: AuditPluginOptions) {
+    return (queryBuilder: import("graphile-build-pg").QueryBuilder) => {
+      return sql.fragment`
+        ${sql.identifier(options.auditFunctionSchema)}.get_audit_information(
           ${queryBuilder.getTableAlias()}.audit_id, 
           ${sql.value(pgClass.namespaceName)}, 
           ${sql.value(pgClass.name)})`;
+    };
   }
 
-  function queryForDate(which: "first" | "last") {
+  function queryForDate(which: "first" | "last", options: AuditPluginOptions) {
     return (queryBuilder: QueryBuilder) =>
-      sql.fragment`(SELECT stmt_date FROM ${queryForAudits(
+      sql.fragment`(SELECT stmt_date FROM ${queryForAudits(options)(
         queryBuilder
       )}  ORDER BY id ${sql.raw(which === "first" ? "ASC" : "DESC")} LIMIT 1)`;
   }
@@ -39,7 +39,7 @@ export function queryBuildersForTable(pgClass: PgClass, build: Build) {
           : sql.fragment`${sql.identifier("session_info")}#>>${sql.value(
               options.nameSessionInfoJsonPath
             )}`
-      }), ${sql.value(options.nameFallback)}) FROM ${queryForAudits(
+      }), ${sql.value(options.nameFallback)}) FROM ${queryForAudits(options)(
         queryBuilder
       )}  ORDER BY id ${sql.raw(which === "first" ? "ASC" : "DESC")} LIMIT 1)`;
   }

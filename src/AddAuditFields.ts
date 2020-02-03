@@ -78,6 +78,8 @@ export const AddAuditFields = makeExtendSchemaPlugin((build, options) => {
     }
     return typeDefs;
   });
-
+  if (typeDefs.length === 0) {
+    console.error("no entities found to add audit fields to");
+  }
   return { typeDefs: mergeTypeDefs(typeDefs) };
 });

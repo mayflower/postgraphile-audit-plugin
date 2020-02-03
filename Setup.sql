@@ -3,7 +3,7 @@
 \echo 'This schema should be exposed by postgraphile and can be different from the pgMemento schema'
 \prompt '[example: "public"] ' schema_name
 
-SET search_path TO :schema_name;
+SET search_path TO :'schema_name', 'public' ;
 
 CREATE TYPE audit_event AS ( id BIGINT,
 audit_id BIGINT,

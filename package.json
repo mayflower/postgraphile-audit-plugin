@@ -1,14 +1,38 @@
 {
   "name": "postgraphile-audit-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "dist/index.js",
   "license": "MIT",
+  "homepage": "https://github.com/mayflower/postgraphile-audit-plugin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mayflower/postgraphile-audit-plugin.git"
+  },
+  "description": "This plugin adds functionality to access pgMemento's audit data on an entity level from a postgraphile graphql api.",
+  "keywords": [
+    "postgraphile",
+    "pgmemento",
+    "graphql",
+    "audit"
+  ],
+  "author": {
+    "name": "Lenz Weber",
+    "email": "lenz.weber@mayflower.de",
+    "url": "https://phryneas.de"
+  },
+  "contributors": [
+    {
+      "name": "Maria Haubner",
+      "email": "maria.haubner@mayflower.de"
+    }
+  ],
   "files": [
     "dist/*",
     "Setup.sql"
   ],
   "scripts": {
     "build": "tsc",
+    "prepack": "rimraf ./dist; npm run build",
     "lint": "eslint 'src/**/*.ts'",
     "watch": "tsc --watch",
     "test": "./scripts/test",

@@ -25,6 +25,9 @@ const additionalInflectors = {
   pap_auditEvents() {
     return "auditEvents";
   },
+  pap_usernameField() {
+    return "userName";
+  },
 };
 
 export type AdditionalInflectors = typeof additionalInflectors;

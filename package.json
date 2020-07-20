@@ -37,6 +37,7 @@
     "lint": "eslint 'src/**/*.ts'",
     "watch": "tsc --watch",
     "run-tests": "yarn start-test-docker; sleep 5; yarn test; yarn kill-test-docker",
+    "run-tests-watch": "yarn start-test-docker; sleep 5; yarn test --watchAll; yarn kill-test-docker",
     "test": "./scripts/test",
     "start-test-docker": "docker run --rm -d -p=54321:5432 --name=postgraphile-audit-test-postgres postgres:11.5",
     "kill-test-docker": "docker kill postgraphile-audit-test-postgres 2>/dev/null && docker wait postgraphile-audit-test-postgres;",

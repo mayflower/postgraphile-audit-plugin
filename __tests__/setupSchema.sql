@@ -5,14 +5,18 @@ DROP SCHEMA IF EXISTS postgraphile_audit_plugin CASCADE;
 
 CREATE SCHEMA postgraphile_audit_plugin;
 
-\echo
-\echo 'Create event trigger to log schema changes ...'
-SELECT pgmemento.create_schema_event_trigger(TRUE);
 
-\echo
-\echo 'Start auditing for tables in "postgraphile_audit_plugin" schema ...'
-SELECT pgmemento.create_schema_audit('postgraphile_audit_plugin', TRUE, array[]::text[]);
 
+
+SELECT pgmemento.init(
+    'postgraphile_audit_plugin', -- schema_name
+    'audit_id', -- audit_id_column_name
+    TRUE, -- log_old_data
+    TRUE, -- log_new_data
+    FALSE, -- log_state
+    TRUE, -- trigger_create_table
+    '{}' -- except_tables
+  );
 
 CREATE TABLE postgraphile_audit_plugin.users (
 	id SERIAL PRIMARY KEY,
@@ -26,8 +30,8 @@ CREATE TABLE postgraphile_audit_plugin.emails (
 );
 
 CREATE TABLE postgraphile_audit_plugin.users_emails (
-	user_id INT NOT NULL REFERENCES postgraphile_audit_plugin.users(id),
-	email_id INT NOT NULL REFERENCES postgraphile_audit_plugin.emails(id),
+	user_id INT NOT NULL, -- REFERENCES postgraphile_audit_plugin.users(id),
+	email_id INT NOT NULL, -- REFERENCES postgraphile_audit_plugin.emails(id),
 	PRIMARY KEY (
 		user_id,
 		email_id

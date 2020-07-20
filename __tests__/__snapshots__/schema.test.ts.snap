@@ -13,7 +13,7 @@ interface Audited {
 type AuditEvent {
   id: BigInt
   auditId: BigInt
-  eventId: Int
+  eventKey: String
   transactionId: Int
   stmtDate: Datetime
   sessionInfo: JSON
@@ -71,23 +71,6 @@ type Email implements Node & Audited {
   nodeId: ID!
   id: Int!
   email: String!
-
-  """Reads and enables pagination through a set of \`UsersEmail\`."""
-  usersEmailsByEmailIdList(
-    """Only read the first \`n\` values of the set."""
-    first: Int
-
-    """Skip the first \`n\` values."""
-    offset: Int
-
-    """The method to use when ordering \`UsersEmail\`."""
-    orderBy: [UsersEmailsOrderBy!]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: UsersEmailCondition
-  ): [UsersEmail!]!
   firstAuditEvent: AuditEvent!
   lastAuditEvent: AuditEvent!
   createdAt: String!
@@ -282,23 +265,6 @@ type User implements Node & Audited {
   id: Int!
   firstName: String!
   lastName: String!
-
-  """Reads and enables pagination through a set of \`UsersEmail\`."""
-  usersEmailsByUserIdList(
-    """Only read the first \`n\` values of the set."""
-    first: Int
-
-    """Skip the first \`n\` values."""
-    offset: Int
-
-    """The method to use when ordering \`UsersEmail\`."""
-    orderBy: [UsersEmailsOrderBy!]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: UsersEmailCondition
-  ): [UsersEmail!]!
   firstAuditEvent: AuditEvent!
   lastAuditEvent: AuditEvent!
   createdAt: String!
@@ -345,12 +311,6 @@ type UsersEmail implements Node & Audited {
   nodeId: ID!
   userId: Int!
   emailId: Int!
-
-  """Reads a single \`User\` that is related to this \`UsersEmail\`."""
-  userByUserId: User
-
-  """Reads a single \`Email\` that is related to this \`UsersEmail\`."""
-  emailByEmailId: Email
   firstAuditEvent: AuditEvent!
   lastAuditEvent: AuditEvent!
   createdAt: String!
@@ -426,7 +386,7 @@ exports[`schema: external schema without plugin 1`] = `
 type AuditEvent {
   id: BigInt
   auditId: BigInt
-  eventId: Int
+  eventKey: String
   transactionId: Int
   userName: String
   stmtDate: Datetime
@@ -456,23 +416,6 @@ type Email implements Node {
   id: Int!
   email: String!
   auditId: BigInt!
-
-  """Reads and enables pagination through a set of \`UsersEmail\`."""
-  usersEmailsByEmailIdList(
-    """Only read the first \`n\` values of the set."""
-    first: Int
-
-    """Skip the first \`n\` values."""
-    offset: Int
-
-    """The method to use when ordering \`UsersEmail\`."""
-    orderBy: [UsersEmailsOrderBy!]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: UsersEmailCondition
-  ): [UsersEmail!]!
 }
 
 """
@@ -634,23 +577,6 @@ type User implements Node {
   firstName: String!
   lastName: String!
   auditId: BigInt!
-
-  """Reads and enables pagination through a set of \`UsersEmail\`."""
-  usersEmailsByUserIdList(
-    """Only read the first \`n\` values of the set."""
-    first: Int
-
-    """Skip the first \`n\` values."""
-    offset: Int
-
-    """The method to use when ordering \`UsersEmail\`."""
-    orderBy: [UsersEmailsOrderBy!]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: UsersEmailCondition
-  ): [UsersEmail!]!
 }
 
 """
@@ -678,12 +604,6 @@ type UsersEmail implements Node {
   userId: Int!
   emailId: Int!
   auditId: BigInt!
-
-  """Reads a single \`User\` that is related to this \`UsersEmail\`."""
-  userByUserId: User
-
-  """Reads a single \`Email\` that is related to this \`UsersEmail\`."""
-  emailByEmailId: Email
 }
 
 """

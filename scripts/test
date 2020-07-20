@@ -20,12 +20,20 @@ git submodule update --init --recursive
 
 (
   cd __tests__/pgMemento
+  psql -Xqv ON_ERROR_STOP=1 -c "DROP SCHEMA IF EXISTS pgMemento CASCADE;" "$TEST_DATABASE_URL"
   psql -Xqv ON_ERROR_STOP=1 -f INSTALL_PGMEMENTO.sql "$TEST_DATABASE_URL"
 )
 
 
 # Import latest schema (throw on error)
 psql -Xqv ON_ERROR_STOP=1 -f __tests__/setupSchema.sql "$TEST_DATABASE_URL"
+
+echo
+echo --------------
+echo enter postgraphile_audit_plugin 
+echo --------------
+echo
+
 psql -Xqv ON_ERROR_STOP=1 -f Setup.sql "$TEST_DATABASE_URL"
 clear
 echo "Database reset successfully ✅"

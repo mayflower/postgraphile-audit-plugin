@@ -15,11 +15,11 @@ type AuditEvent {
   auditId: BigInt
   eventId: Int
   transactionId: Int
-  userName: String
   stmtDate: Datetime
   sessionInfo: JSON
   valuesBefore: JSON
   valuesAfter: JSON
+  userName: String!
 }
 
 """A connection to a list of \`AuditEvent\` values."""
@@ -71,7 +71,6 @@ type Email implements Node & Audited {
   nodeId: ID!
   id: Int!
   email: String!
-  auditId: BigInt!
 
   """Reads and enables pagination through a set of \`UsersEmail\`."""
   usersEmailsByEmailIdList(
@@ -123,9 +122,6 @@ input EmailCondition {
 
   """Checks for equality with the object’s \`email\` field."""
   email: String
-
-  """Checks for equality with the object’s \`auditId\` field."""
-  auditId: BigInt
 }
 
 """Methods to use when ordering \`Email\`."""
@@ -135,8 +131,6 @@ enum EmailsOrderBy {
   ID_DESC
   EMAIL_ASC
   EMAIL_DESC
-  AUDIT_ID_ASC
-  AUDIT_ID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
   CREATED_AT_ASC
@@ -243,11 +237,8 @@ type Query implements Node {
     condition: UsersEmailCondition
   ): [UsersEmail!]
   emailById(id: Int!): Email
-  emailByAuditId(auditId: BigInt!): Email
   userById(id: Int!): User
-  userByAuditId(auditId: BigInt!): User
   usersEmailByUserIdAndEmailId(userId: Int!, emailId: Int!): UsersEmail
-  usersEmailByAuditId(auditId: BigInt!): UsersEmail
 
   """Reads and enables pagination through a set of \`AuditEvent\`."""
   getAuditInformationList(
@@ -291,7 +282,6 @@ type User implements Node & Audited {
   id: Int!
   firstName: String!
   lastName: String!
-  auditId: BigInt!
 
   """Reads and enables pagination through a set of \`UsersEmail\`."""
   usersEmailsByUserIdList(
@@ -346,9 +336,6 @@ input UserCondition {
 
   """Checks for equality with the object’s \`lastName\` field."""
   lastName: String
-
-  """Checks for equality with the object’s \`auditId\` field."""
-  auditId: BigInt
 }
 
 type UsersEmail implements Node & Audited {
@@ -358,7 +345,6 @@ type UsersEmail implements Node & Audited {
   nodeId: ID!
   userId: Int!
   emailId: Int!
-  auditId: BigInt!
 
   """Reads a single \`User\` that is related to this \`UsersEmail\`."""
   userByUserId: User
@@ -400,9 +386,6 @@ input UsersEmailCondition {
 
   """Checks for equality with the object’s \`emailId\` field."""
   emailId: Int
-
-  """Checks for equality with the object’s \`auditId\` field."""
-  auditId: BigInt
 }
 
 """Methods to use when ordering \`UsersEmail\`."""
@@ -412,8 +395,6 @@ enum UsersEmailsOrderBy {
   USER_ID_DESC
   EMAIL_ID_ASC
   EMAIL_ID_DESC
-  AUDIT_ID_ASC
-  AUDIT_ID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
   CREATED_AT_ASC
@@ -431,8 +412,6 @@ enum UsersOrderBy {
   FIRST_NAME_DESC
   LAST_NAME_ASC
   LAST_NAME_DESC
-  AUDIT_ID_ASC
-  AUDIT_ID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
   CREATED_AT_ASC

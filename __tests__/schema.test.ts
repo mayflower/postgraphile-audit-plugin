@@ -30,6 +30,7 @@ function buildTestSchema(override?: PostGraphileCoreOptions) {
     graphileBuildOptions: {
       auditPlugin: {
         auditFunctionSchema: "postgraphile_audit_plugin",
+        auditIdColumnName: "pgmemento_audit_id",
         auditEventConnection: true,
         firstLastAuditEvent: true,
         dateProps: true,

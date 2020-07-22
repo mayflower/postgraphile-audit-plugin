@@ -18,12 +18,13 @@ export const OrderByAudit: Plugin = builder => {
       scope: { isPgRowSortEnum, pgIntrospection: pgClass },
     } = context;
 
-    if (!isPgRowSortEnum || !isAuditedClass(pgClass)) {
+    const auditOptions = getOptions(build);
+
+    if (!isPgRowSortEnum || !isAuditedClass(pgClass, auditOptions)) {
       return values;
     }
 
     const inflection: Inflection = build.inflection;
-    const auditOptions = getOptions(build);
     const { dateProps, nameProps } = auditOptions;
     const { queryForDate, queryForUser } = queryBuildersForTable(
       pgClass,

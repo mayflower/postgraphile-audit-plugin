@@ -18,7 +18,9 @@ export const AddAuditFields = makeExtendSchemaPlugin((build, options) => {
   } = auditOptions;
 
   const pgClasses: PgClass[] = build.pgIntrospectionResultsByKind.class;
-  const auditedClasses = pgClasses.filter(isAuditedClass);
+  const auditedClasses = pgClasses.filter(pgEntity =>
+    isAuditedClass(pgEntity, auditOptions)
+  );
 
   const typeDefs = flatMap(auditedClasses, pgClass => {
     const {

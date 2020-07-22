@@ -19,7 +19,9 @@ export function queryBuildersForTable(pgClass: PgClass, build: Build) {
     return (queryBuilder: import("graphile-build-pg").QueryBuilder) => {
       return sql.fragment`
         ${sql.identifier(options.auditFunctionSchema)}.get_audit_information(
-          ${queryBuilder.getTableAlias()}.audit_id, 
+          ${queryBuilder.getTableAlias()}.${sql.identifier(
+        options.auditIdColumnName
+      )}, 
           ${sql.value(pgClass.namespaceName)}, 
           ${sql.value(pgClass.name)})`;
     };

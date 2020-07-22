@@ -8,6 +8,11 @@ export interface AuditPluginOptions {
   auditFunctionSchema: string;
 
   /**
+   * Name of the audit id column. Defaults to `pgmemento_audit_id`
+   */
+  auditIdColumnName: string;
+
+  /**
    * include "auditEvents" connection on audited types
    */
   auditEventConnection: boolean;
@@ -44,6 +49,7 @@ export function getOptions(build: Build): AuditPluginOptions {
   const {
     auditPlugin: {
       auditFunctionSchema = "public",
+      auditIdColumnName = "pgmemento_audit_id",
       auditEventConnection = true,
       firstLastAuditEvent = true,
       dateProps = true,
@@ -55,6 +61,7 @@ export function getOptions(build: Build): AuditPluginOptions {
   } = options;
   return {
     auditFunctionSchema,
+    auditIdColumnName,
     auditEventConnection,
     firstLastAuditEvent,
     dateProps,

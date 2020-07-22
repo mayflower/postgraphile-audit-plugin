@@ -10,7 +10,7 @@ CREATE SCHEMA postgraphile_audit_plugin;
 
 SELECT pgmemento.init(
     'postgraphile_audit_plugin', -- schema_name
-    'audit_id', -- audit_id_column_name
+    'pgmemento_audit_id', -- audit_id_column_name
     TRUE, -- log_old_data
     TRUE, -- log_new_data
     FALSE, -- log_state

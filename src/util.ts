@@ -1,15 +1,22 @@
+import { AuditPluginOptions } from ".";
+
 type PgEntity = import("graphile-build-pg").PgEntity;
 type PgClass = import("graphile-build-pg").PgClass;
 type DocumentNode = import("graphql").DocumentNode;
 
-export function isAuditedClass(pgEntity?: PgEntity): pgEntity is PgClass {
+export function isAuditedClass(
+  pgEntity: PgEntity | undefined,
+  options: AuditPluginOptions
+): pgEntity is PgClass {
   return (
     !!pgEntity &&
     pgEntity.kind === "class" &&
     pgEntity.namespaceName !== "pgmemento" &&
     !!pgEntity.namespace &&
     pgEntity.classKind === "r" &&
-    pgEntity.attributes.some(pgAttribute => pgAttribute.name === "audit_id")
+    pgEntity.attributes.some(
+      pgAttribute => pgAttribute.name === options.auditIdColumnName
+    )
   );
 }
 

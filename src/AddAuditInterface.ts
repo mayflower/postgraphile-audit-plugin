@@ -93,7 +93,10 @@ export const AddAuditedInterface: Plugin = builder => {
     function addInterfaceToAuditedTypes(interfaces, build, context) {
       if (
         !context.scope.isPgRowType ||
-        !isAuditedClass(build.scopeByType.get(context.Self)?.pgIntrospection)
+        !isAuditedClass(
+          build.scopeByType.get(context.Self)?.pgIntrospection,
+          getOptions(build)
+        )
       ) {
         return interfaces;
       }

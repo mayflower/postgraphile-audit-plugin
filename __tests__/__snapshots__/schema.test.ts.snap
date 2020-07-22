@@ -415,7 +415,7 @@ type Email implements Node {
   nodeId: ID!
   id: Int!
   email: String!
-  auditId: BigInt!
+  pgmementoAuditId: BigInt!
 }
 
 """
@@ -428,8 +428,8 @@ input EmailCondition {
   """Checks for equality with the object’s \`email\` field."""
   email: String
 
-  """Checks for equality with the object’s \`auditId\` field."""
-  auditId: BigInt
+  """Checks for equality with the object’s \`pgmementoAuditId\` field."""
+  pgmementoAuditId: BigInt
 }
 
 """Methods to use when ordering \`Email\`."""
@@ -439,8 +439,8 @@ enum EmailsOrderBy {
   ID_DESC
   EMAIL_ASC
   EMAIL_DESC
-  AUDIT_ID_ASC
-  AUDIT_ID_DESC
+  PGMEMENTO_AUDIT_ID_ASC
+  PGMEMENTO_AUDIT_ID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -528,11 +528,11 @@ type Query implements Node {
     condition: UsersEmailCondition
   ): [UsersEmail!]
   emailById(id: Int!): Email
-  emailByAuditId(auditId: BigInt!): Email
+  emailByPgmementoAuditId(pgmementoAuditId: BigInt!): Email
   userById(id: Int!): User
-  userByAuditId(auditId: BigInt!): User
+  userByPgmementoAuditId(pgmementoAuditId: BigInt!): User
   usersEmailByUserIdAndEmailId(userId: Int!, emailId: Int!): UsersEmail
-  usersEmailByAuditId(auditId: BigInt!): UsersEmail
+  usersEmailByPgmementoAuditId(pgmementoAuditId: BigInt!): UsersEmail
 
   """Reads and enables pagination through a set of \`AuditEvent\`."""
   getAuditInformationList(
@@ -576,7 +576,7 @@ type User implements Node {
   id: Int!
   firstName: String!
   lastName: String!
-  auditId: BigInt!
+  pgmementoAuditId: BigInt!
 }
 
 """
@@ -592,8 +592,8 @@ input UserCondition {
   """Checks for equality with the object’s \`lastName\` field."""
   lastName: String
 
-  """Checks for equality with the object’s \`auditId\` field."""
-  auditId: BigInt
+  """Checks for equality with the object’s \`pgmementoAuditId\` field."""
+  pgmementoAuditId: BigInt
 }
 
 type UsersEmail implements Node {
@@ -603,7 +603,7 @@ type UsersEmail implements Node {
   nodeId: ID!
   userId: Int!
   emailId: Int!
-  auditId: BigInt!
+  pgmementoAuditId: BigInt!
 }
 
 """
@@ -617,8 +617,8 @@ input UsersEmailCondition {
   """Checks for equality with the object’s \`emailId\` field."""
   emailId: Int
 
-  """Checks for equality with the object’s \`auditId\` field."""
-  auditId: BigInt
+  """Checks for equality with the object’s \`pgmementoAuditId\` field."""
+  pgmementoAuditId: BigInt
 }
 
 """Methods to use when ordering \`UsersEmail\`."""
@@ -628,8 +628,8 @@ enum UsersEmailsOrderBy {
   USER_ID_DESC
   EMAIL_ID_ASC
   EMAIL_ID_DESC
-  AUDIT_ID_ASC
-  AUDIT_ID_DESC
+  PGMEMENTO_AUDIT_ID_ASC
+  PGMEMENTO_AUDIT_ID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -643,8 +643,8 @@ enum UsersOrderBy {
   FIRST_NAME_DESC
   LAST_NAME_ASC
   LAST_NAME_DESC
-  AUDIT_ID_ASC
-  AUDIT_ID_DESC
+  PGMEMENTO_AUDIT_ID_ASC
+  PGMEMENTO_AUDIT_ID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }

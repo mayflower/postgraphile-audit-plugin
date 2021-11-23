@@ -12,6 +12,7 @@ export const AddAuditFields = makeExtendSchemaPlugin((build, options) => {
   const auditOptions = getOptions(build);
   const {
     auditEventConnection,
+    auditEventFieldsAndConnectionOptional,
     firstLastAuditEvent,
     dateProps,
     nameProps,
@@ -21,6 +22,10 @@ export const AddAuditFields = makeExtendSchemaPlugin((build, options) => {
   const auditedClasses = pgClasses.filter(pgEntity =>
     isAuditedClass(pgEntity, auditOptions)
   );
+
+  const fieldTypeWrapper = (fieldType: string) => {
+    return auditEventFieldsAndConnectionOptional ? fieldType : `${fieldType}!`;
+  };
 
   const typeDefs = flatMap(auditedClasses, pgClass => {
     const {
@@ -34,11 +39,15 @@ export const AddAuditFields = makeExtendSchemaPlugin((build, options) => {
     if (firstLastAuditEvent) {
       typeDefs.push(gql`
       extend type ${inflection.tableType(pgClass)} {
-        ${inflection.pap_firstAuditEvent()}: AuditEvent! @pgQuery(
+        ${inflection.pap_firstAuditEvent()}: ${fieldTypeWrapper(
+        "AuditEvent"
+      )} @pgQuery(
           source: ${embed(queryForAudits(auditOptions))}
           withQueryBuilder: ${embed(firstResult)}
         )
-        ${inflection.pap_lastAuditEvent()}: AuditEvent! @pgQuery(
+        ${inflection.pap_lastAuditEvent()}: ${fieldTypeWrapper(
+        "AuditEvent"
+      )} @pgQuery(
             source: ${embed(queryForAudits(auditOptions))}
             withQueryBuilder: ${embed(lastResult)}
         )         
@@ -48,10 +57,12 @@ export const AddAuditFields = makeExtendSchemaPlugin((build, options) => {
     if (dateProps) {
       typeDefs.push(gql`
       extend type ${inflection.tableType(pgClass)} {
-        ${inflection.pap_createdAt()}: String! @pgQuery(
+        ${inflection.pap_createdAt()}: ${fieldTypeWrapper("String")} @pgQuery(
             fragment: ${embed(queryForDate("first", auditOptions))}
         )
-        ${inflection.pap_lastModifiedAt()}: String! @pgQuery(
+        ${inflection.pap_lastModifiedAt()}: ${fieldTypeWrapper(
+        "String"
+      )} @pgQuery(
             fragment: ${embed(queryForDate("last", auditOptions))}
         )
       }
@@ -60,10 +71,12 @@ export const AddAuditFields = makeExtendSchemaPlugin((build, options) => {
     if (nameProps) {
       typeDefs.push(gql`
       extend type ${inflection.tableType(pgClass)} {
-        ${inflection.pap_createdBy()}: String! @pgQuery(
+        ${inflection.pap_createdBy()}: ${fieldTypeWrapper("String")} @pgQuery(
             fragment: ${embed(queryForUser("first", auditOptions))}
         )
-        ${inflection.pap_lastModifiedBy()}: String! @pgQuery(
+        ${inflection.pap_lastModifiedBy()}: ${fieldTypeWrapper(
+        "String"
+      )} @pgQuery(
             fragment: ${embed(queryForUser("last", auditOptions))}
         )
       }
@@ -72,7 +85,9 @@ export const AddAuditFields = makeExtendSchemaPlugin((build, options) => {
     if (auditEventConnection) {
       typeDefs.push(gql`
       extend type ${inflection.tableType(pgClass)} {
-        ${inflection.pap_auditEvents()}: AuditEventsConnection! @pgQuery(
+        ${inflection.pap_auditEvents()}: ${fieldTypeWrapper(
+        "AuditEventsConnection"
+      )} @pgQuery(
             source: ${embed(queryForAudits(auditOptions))}
         )
       }

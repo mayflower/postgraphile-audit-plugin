@@ -19,8 +19,15 @@ export const AddAuditedInterface: Plugin = builder => {
         firstLastAuditEvent,
         dateProps,
         nameProps,
+        auditEventFieldsAndConnectionOptional,
       } = getOptions(build);
       const inflection: Inflection = build.inflection;
+
+      const fieldTypeWrapper = (fieldType: any) => {
+        return auditEventFieldsAndConnectionOptional
+          ? fieldType
+          : new GraphQLNonNull(fieldType);
+      };
 
       newWithHooks(
         GraphQLInterfaceType,
@@ -37,36 +44,34 @@ export const AddAuditedInterface: Plugin = builder => {
 
             if (firstLastAuditEvent) {
               fields[inflection.pap_firstAuditEvent()] = {
-                type: new GraphQLNonNull(getTypeByName("AuditEvent")),
+                type: fieldTypeWrapper(getTypeByName("AuditEvent")),
               };
               fields[inflection.pap_lastAuditEvent()] = {
-                type: new GraphQLNonNull(getTypeByName("AuditEvent")),
+                type: fieldTypeWrapper(getTypeByName("AuditEvent")),
               };
             }
 
             if (dateProps) {
               fields[inflection.pap_createdAt()] = {
-                type: new GraphQLNonNull(getTypeByName("String")),
+                type: fieldTypeWrapper(getTypeByName("String")),
               };
               fields[inflection.pap_lastModifiedAt()] = {
-                type: new GraphQLNonNull(getTypeByName("String")),
+                type: fieldTypeWrapper(getTypeByName("String")),
               };
             }
 
             if (nameProps) {
               fields[inflection.pap_createdBy()] = {
-                type: new GraphQLNonNull(getTypeByName("String")),
+                type: fieldTypeWrapper(getTypeByName("String")),
               };
               fields[inflection.pap_lastModifiedBy()] = {
-                type: new GraphQLNonNull(getTypeByName("String")),
+                type: fieldTypeWrapper(getTypeByName("String")),
               };
             }
 
             if (auditEventConnection) {
               fields[inflection.pap_auditEvents()] = {
-                type: new GraphQLNonNull(
-                  getTypeByName("AuditEventsConnection")
-                ),
+                type: fieldTypeWrapper(getTypeByName("AuditEventsConnection")),
                 args: {
                   first: { type: getTypeByName("Int") },
                   last: { type: getTypeByName("Int") },

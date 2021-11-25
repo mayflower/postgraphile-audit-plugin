@@ -16,6 +16,12 @@ export interface AuditPluginOptions {
    * include "auditEvents" connection on audited types
    */
   auditEventConnection: boolean;
+
+  /**
+   * Define audit event fields and connection as optional, defaults to false
+   */
+  auditEventFieldsAndConnectionOptional?: boolean;
+
   /**
    * include "firstAuditEvent" and "lastAuditEvent" field on audited types
    */
@@ -51,6 +57,7 @@ export function getOptions(build: Build): AuditPluginOptions {
       auditFunctionSchema = "public",
       auditIdColumnName = "pgmemento_audit_id",
       auditEventConnection = true,
+      auditEventFieldsAndConnectionOptional = false,
       firstLastAuditEvent = true,
       dateProps = true,
       nameProps = true,
@@ -63,6 +70,7 @@ export function getOptions(build: Build): AuditPluginOptions {
     auditFunctionSchema,
     auditIdColumnName,
     auditEventConnection,
+    auditEventFieldsAndConnectionOptional,
     firstLastAuditEvent,
     dateProps,
     nameProps,
